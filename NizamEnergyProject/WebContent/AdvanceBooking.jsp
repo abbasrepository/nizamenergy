@@ -122,7 +122,7 @@
 				<ul class="nav">
 
 					<li class="has-sub"><a href="SuperAdminDashboard"> <i
-							class="fa fa-laptop"></i> <span>Dashboard</span>
+							class="fa fa-laptop"></i> <span>Dashboard/Test</span>
 					</a></li>
 
 					<li class="has-sub"><a href="Request"> <i
