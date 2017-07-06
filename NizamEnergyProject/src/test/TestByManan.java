@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,6 +27,9 @@ public class TestByManan extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.print("hello test1234");
+		System.out.println("Welcome to GitHub..... this is another line --------...... by Waseem");
 		// TODO Auto-generated method stub
 	}
 
