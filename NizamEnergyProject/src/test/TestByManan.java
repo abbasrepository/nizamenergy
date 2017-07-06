@@ -27,7 +27,7 @@ public class TestByManan extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.print("hello test");
+		System.out.print("hello test1234");
 		// TODO Auto-generated method stub
 	}
 
