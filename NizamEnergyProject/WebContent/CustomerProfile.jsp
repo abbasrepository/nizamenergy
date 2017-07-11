@@ -227,7 +227,7 @@
 				.getAttribute("appId")));
 
 		ArrayList<HashMap<String, String>> maps = CustomerRetrieveDataBAL
-				.getRequestStatus(customerId);
+				.getRequestStatus(Integer.parseInt(eligibilityId));
 	%>
 	<!-- begin #page-container -->
 	<div id="page-container"
