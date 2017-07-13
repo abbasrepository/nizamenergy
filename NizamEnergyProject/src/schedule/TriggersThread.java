@@ -35,6 +35,12 @@ public class TriggersThread extends Thread {
 					logger.info("sendWellWishes");
 					sendMessageNotices();
 					sendWellWishes();
+				}else if (df.format(dateobj).equals("11:26")) {
+					sendPendingMessages();
+					System.err.println("messages has been dispatched from our system");
+					
+				}else{
+					System.err.println("else called");
 				}
 				Thread.sleep(60000);
 			}
@@ -245,5 +251,23 @@ public class TriggersThread extends Thread {
 			}
 		}
 	}
+	
+	
+	public static void sendPendingMessages() {
+		ArrayList<HashMap<String, String>> list = PendingMessagesThread
+				.getPendingMessages();
+		for (int i = 0; i < list.size(); i++) {
+			System.err.println("messages uder loop");
+			
+			try {
+				MoblinkMessageService.SendMessage(
+						list.get(i).get("customerPhone"), list.get(i).get("message"));
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}
+	}
+	
+	
 
 }
