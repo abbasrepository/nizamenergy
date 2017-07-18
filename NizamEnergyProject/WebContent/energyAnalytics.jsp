@@ -250,8 +250,12 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 
 															<th>Customer Name</th>
 															<th>District</th>
+															<th>Credit Rating</th>
 															<th>Appliance Name</th>
+															<th>Created On</th>
 															<th>Power Produced</th>
+															<th>Loan Status</th>
+															<th>Loan Book Details</th>
 
 															<!-- 															<th>Monthly Income</th> -->
 														</tr>
@@ -271,8 +275,13 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 
 															<th>Customer Name</th>
 															<th>District</th>
+															<th>Credit Rating</th>
 															<th>Appliance Name</th>
+															<th>Created On</th>
 															<th>Power Produced</th>
+															<th>Loan Status</th>
+															<th>Loan Book Details</th>
+															
 
 															<!-- 															<th>Monthly Income</th> -->
 														</tr>
@@ -292,8 +301,12 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 
 															<th>Customer Name</th>
 															<th>District</th>
+															<th>Credit Rating</th>
 															<th>Appliance Name</th>
+															<th>Created On</th>
 															<th>Load Consumed</th>
+															<th>Loan Status</th>
+															<th>Loan Book Details</th>
 
 															<!-- 															<th>Monthly Income</th> -->
 														</tr>
@@ -311,8 +324,12 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 														<tr>
 															<th>Customer Name</th>
 															<th>District</th>
+															<th>Credit Rating</th>
 															<th>Appliance Name</th>
+															<th>Created On</th>
 															<th>Load Consumed</th>
+															<th>Loan Status</th>
+															<th>Loan Book Details</th>
 															<!-- 															<th>Monthly Income</th> -->
 														</tr>
 													</thead>
@@ -333,6 +350,7 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 															<th>Devices</th>
 															<th>Total Produced</th>
 															<th>Total Consumed</th>
+															
 
 														</tr>
 													</thead>
@@ -443,12 +461,30 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 						$('#topProduction').empty();
 						if (data.length > 0) {
 							$.each(data, function(e) {
-								var tds = '<tr>' + '<td>'
-										+ data[e].customerName + '</td>'
-										+ '<td>' + data[e].district_name
-										+ '</td>' + '<td>' + data[e].name
-										+ '</td>' + '<td>' + data[e].power
-										+ ' WH </td>' + '</tr>';
+								if(data[e].loanStatus == 'maintained'){
+									background_color="blue";
+									color="white";
+								}else if(data[e].loanStatus == 'owned'){
+									background_color="#d35400";
+									color="white";
+								}
+								else if(data[e].loanStatus == 'defaulter'){
+									background_color="purple";
+									color="black";
+								}
+								var background_color;
+								var color;
+								var tds = '<tr>'
+										+'<td> <a href=ViewServlet?click=view&id='+data[e].customer_id+'&cnic='+data[e].customer_cnic+'&appId='+data[e].appliance_id+'> '+data[e].customerName+'</a> </td>'
+										+ '<td>' + data[e].district_name+ '</td>'
+										+ '<td>' + data[e].credit_rating+ '</td>'
+										+'<td> <a href=ViewServlet?click=viewAppliance&id='+data[e].appliance_id+'> ' + data[e].name+ '</a> </td>'
+										+ '<td>' + data[e].created_on+ '</td>'
+										+ '<td>' + data[e].power+ 'WH </td>' 
+										+ '<td> <span class="label" style="background-color: '+background_color+'; color: '+color+'; font-weight: bold;"> maintained </span></td>'
+										+'<td> <a href=SuperAdminLoanBookController?appliace_key='+data[e].appliance_id+'> View Loan Book</a> </td>'
+										+ '</tr>';
+										
 								$("#topProduction").append(tds);
 							})
 
@@ -471,12 +507,30 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 						$('#leastProduction').empty();
 						if (data.length > 0) {
 							$.each(data, function(e) {
-								var tds = '<tr>' + '<td>'
-										+ data[e].customerName + '</td>'
-										+ '<td>' + data[e].district_name
-										+ '</td>' + '<td>' + data[e].name
-										+ '</td>' + '<td>' + data[e].power
-										+ ' WH </td>' + '</tr>';
+								if(data[e].loanStatus == 'maintained'){
+									background_color="blue";
+									color="white";
+								}else if(data[e].loanStatus == 'owned'){
+									background_color="#d35400";
+									color="white";
+								}
+								else if(data[e].loanStatus == 'defaulter'){
+									background_color="purple";
+									color="black";
+								}
+								var background_color;
+								var color;
+								var tds = '<tr>'
+										+'<td> <a href=ViewServlet?click=view&id='+data[e].customer_id+'&cnic='+data[e].customer_cnic+'&appId='+data[e].appliance_id+'> '+data[e].customerName+'</a> </td>'
+										+ '<td>' + data[e].district_name+ '</td>'
+										+ '<td>' + data[e].credit_rating+ '</td>'
+										+'<td> <a href=ViewServlet?click=viewAppliance&id='+data[e].appliance_id+'> ' + data[e].name+ '</a> </td>'
+										+ '<td>' + data[e].created_on+ '</td>'
+										+ '<td>' + data[e].power+ 'WH </td>' 
+										+ '<td> <span class="label" style="background-color: '+background_color+'; color: '+color+'; font-weight: bold;"> maintained </span></td>'
+										+'<td> <a href=SuperAdminLoanBookController?appliace_key='+data[e].appliance_id+'> View Loan Book</a> </td>'
+										+ '</tr>';
+							
 								$("#leastProduction").append(tds);
 							})
 
@@ -499,12 +553,30 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 						$('#topConsumption').empty();
 						if (data.length > 0) {
 							$.each(data, function(e) {
-								var tds = '<tr>' + '<td>'
-										+ data[e].customerName + '</td>'
-										+ '<td>' + data[e].district_name
-										+ '</td>' + '<td>' + data[e].name
-										+ '</td>' + '<td>' + data[e].load
-										+ ' WH </td>' + '</tr>';
+								if(data[e].loanStatus == 'maintained'){
+									background_color="blue";
+									color="white";
+								}else if(data[e].loanStatus == 'owned'){
+									background_color="#d35400";
+									color="white";
+								}
+								else if(data[e].loanStatus == 'defaulter'){
+									background_color="purple";
+									color="black";
+								}
+								var background_color;
+								var color;
+								var tds = '<tr>'
+										+'<td> <a href=ViewServlet?click=view&id='+data[e].customer_id+'&cnic='+data[e].customer_cnic+'&appId='+data[e].appliance_id+'> '+data[e].customerName+'</a> </td>'
+										+ '<td>' + data[e].district_name+ '</td>'
+										+ '<td>' + data[e].credit_rating+ '</td>'
+										+'<td> <a href=ViewServlet?click=viewAppliance&id='+data[e].appliance_id+'> ' + data[e].name+ '</a> </td>'
+										+ '<td>' + data[e].created_on+ '</td>'
+										+ '<td>' + data[e].load+ 'WH </td>' 
+										+ '<td> <span class="label" style="background-color: '+background_color+'; color: '+color+'; font-weight: bold;"> maintained </span></td>'
+										+'<td> <a href=SuperAdminLoanBookController?appliace_key='+data[e].appliance_id+'> View Loan Book</a> </td>'
+										+ '</tr>';
+										
 								$("#topConsumption").append(tds);
 							})
 
@@ -527,12 +599,30 @@ input[type='checkbox'].bigcheck:checked+span.bigcheck-target:after {
 						$('#leastConsumption').empty();
 						if (data.length > 0) {
 							$.each(data, function(e) {
-								var tds = '<tr>' + '<td>'
-										+ data[e].customerName + '</td>'
-										+ '<td>' + data[e].district_name
-										+ ' </td>' + '<td>' + data[e].name
-										+ '</td>' + '<td>' + data[e].load
-										+ ' WH </td>' + '</tr>';
+								if(data[e].loanStatus == 'maintained'){
+									background_color="blue";
+									color="white";
+								}else if(data[e].loanStatus == 'owned'){
+									background_color="#d35400";
+									color="white";
+								}
+								else if(data[e].loanStatus == 'defaulter'){
+									background_color="purple";
+									color="black";
+								}
+								var background_color;
+								var color;
+								var tds = '<tr>'
+										+'<td> <a href=ViewServlet?click=view&id='+data[e].customer_id+'&cnic='+data[e].customer_cnic+'&appId='+data[e].appliance_id+'> '+data[e].customerName+'</a> </td>'
+										+ '<td>' + data[e].district_name+ '</td>'
+										+ '<td>' + data[e].credit_rating+ '</td>'
+										+'<td> <a href=ViewServlet?click=viewAppliance&id='+data[e].appliance_id+'> ' + data[e].name+ '</a> </td>'
+										+ '<td>' + data[e].created_on+ '</td>'
+										+ '<td>' + data[e].load+ 'WH </td>' 
+										+ '<td> <span class="label" style="background-color: '+background_color+'; color: '+color+'; font-weight: bold;"> maintained </span></td>'
+										+'<td> <a href=SuperAdminLoanBookController?appliace_key='+data[e].appliance_id+'> View Loan Book</a> </td>'
+										+ '</tr>';
+							
 								$("#leastConsumption").append(tds);
 							})
 
