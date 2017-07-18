@@ -2053,7 +2053,7 @@
 											<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 											<span id="show_message_success"></span>
 										</div>
-										<div class="col-md-4 alert alert-danger" role="alert"
+										<div class="col-md-5 alert alert-danger" role="alert"
 											style="color: red; font-weight: bold; display: none;"
 											id="fail_message">
 											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
