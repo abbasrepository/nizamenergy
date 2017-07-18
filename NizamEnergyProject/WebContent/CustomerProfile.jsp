@@ -121,7 +121,7 @@
 		
 			$("#cvQ4").css("display", "none");
 			$("#cvQ4_diff_info").css("display", "block");
-		}
+		}		
 	}
 																	
 	function refreshCancel() {
@@ -271,8 +271,8 @@
 					<li <%if (key == 3) {
 				out.print("class='active'");
 			}%>><a
-						href="AdvanceBooking"> <i class="icon-support"></i> <span>Advance Booking</span><span
-							class="badge pull-right" id="unseen_booking_count"></span>
+						href="AdvanceBooking"> <i class="icon-support"></i> <span>Advance
+								Booking</span><span class="badge pull-right" id="unseen_booking_count"></span>
 					</a></li>
 
 
@@ -400,7 +400,7 @@
 								<li><a href="#gaurantorsInformation" data-toggle="tab"><span
 										class="hidden-xs">Guarantors Information</span></a></li>
 								<%
-									if (statuss == 4 || statuss == 9) {
+									if (statuss == 4 || statuss == 9 || statuss == 0) {
 								%>
 								<li><a href="#ccVerification" data-toggle="tab"><span
 										class="hidden-xs">CC Verification</span></a></li>
@@ -1352,6 +1352,52 @@
 														style="color: red; font-size: 12px; font-weight: bold; display: none;">
 														Please select all.</div>
 												</div>
+
+												<div class="col-md-12">
+													<div class="col-md-2">
+														<a href="#modalForNDComment" class="btn btn-success"
+															data-toggle="modal">Add a comment for ND...</a>
+													</div>
+													<div class="col-md-1"></div>
+													<div class="col-md-2" id="view_nd_history">
+														<button type="button" class="btn btn-success"
+															id="btn_view_nd_calling_history"
+															name="btn_view_nd_calling_history"
+															onclick="getCallingInformationForAll('<%=eligibID%>', 'btn_view_nd_calling_history', 'get_nd_calling_history_details'); viewAndHideCallingData('btn_view_nd_calling_history')"
+															value="1">View calling history</button>
+													</div>
+													<div class="col-md-2" id="hide_nd_history"
+														style="display: none;">
+														<button type="button" class="btn btn-success"
+															id="btn_hide_nd_calling_history"
+															name="btn_hide_nd_calling_history"
+															onclick="viewAndHideCallingData('btn_hide_nd_calling_history')">Hide
+															calling history</button>
+													</div>
+												</div>
+
+												<div class="col-md-12"
+													style="margin-top: 10px; display: none;"
+													id="view_nd_calling_history_details">
+
+													<div class="col-md-6 inline bordered round-corner">
+														<div class="table-responsive" style="font-size: 13px">
+															<table class="table table-striped">
+																<thead>
+																	<tr>
+																		<th>Extension number</th>
+																		<th>CC commented</th>
+																		<th>Call time</th>
+																	</tr>
+																</thead>
+																<tbody id="get_nd_calling_history_details">
+
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+
 											</form>
 										</div>
 										<!-- Nizam dost verification ends -->
@@ -1621,7 +1667,6 @@
 															<button type="button" class="btn pull-right btn-success"
 																id="btn_cc_verified_fg" onclick="verifyFG();"
 																name="btn_cc_verified_fg" value="1">Verified</button>
-
 														</div>
 
 													</form>
@@ -1637,7 +1682,7 @@
 														</div>
 												</form>
 											</div>
-											<div class="col-md-12">
+											<div class="col-md-12" style="margin-top: 10px">
 												<div class="col-md-6"></div>
 												<div class="col-md-6" id="fgMessage"
 													style="color: red; font-size: 12px; font-weight: bold; display: none;">
@@ -1646,6 +1691,102 @@
 													style="color: red; font-size: 12px; font-weight: bold; display: none; margin-left: 730px; margin-top: -18px;">
 													Please select all.</div>
 											</div>
+
+											<div class="col-md-12">
+												<div class="col-md-2">
+													<a href="#modalForFGComment" class="btn btn-success"
+														data-toggle="modal">Add a comment for FG...</a>
+												</div>
+
+												<div class="col-md-1"></div>
+
+												<div class="col-md-2" id="view_fg_history">
+													<button type="button" class="btn btn-success"
+														id="btn_view_fg_calling_history"
+														name="btn_view_fg_calling_history"
+														onclick="getCallingInformationForAll('<%=eligibID%>', 'btn_view_fg_calling_history', 'get_fg_calling_history_details'); viewAndHideCallingData('btn_view_fg_calling_history')"
+														value="2">View calling history</button>
+												</div>
+												<div class="col-md-2" id="hide_fg_history"
+													style="display: none;">
+													<button type="button" class="btn btn-success"
+														id="btn_hide_fg_calling_history"
+														name="btn_hide_fg_calling_history"
+														onclick="viewAndHideCallingData('btn_hide_fg_calling_history')">Hide
+														calling history</button>
+												</div>
+
+												<div class="col-md-2"></div>
+												<div class="col-md-2">
+													<a href="#modalForOGComment" class="btn btn-success"
+														data-toggle="modal">Add a comment for OG...</a>
+												</div>
+												<div class="col-md-1"></div>
+												<div class="col-md-2" id="view_og_history">
+													<button type="button" class="btn btn-success"
+														id="btn_view_og_calling_history"
+														name="btn_view_og_calling_history"
+														onclick="getCallingInformationForAll('<%=eligibID%>', 'btn_view_og_calling_history', 'get_og_calling_history_details'); viewAndHideCallingData('btn_view_og_calling_history')"
+														value="3">View calling history</button>
+												</div>
+												<div class="col-md-2" id="hide_og_history"
+													style="display: none;">
+													<button type="button" class="btn btn-success"
+														id="btn_hide_og_calling_history"
+														name="btn_hide_og_calling_history"
+														onclick="viewAndHideCallingData('btn_hide_og_calling_history')">Hide
+														calling history</button>
+												</div>
+											</div>
+
+											<div class="col-md-12">
+
+												<div class="col-md-6"
+													style="margin-top: 10px; display: none; float: left"
+													id="view_fg_calling_history_details">
+													<div class="inline bordered round-corner">
+														<div class="table-responsive" style="font-size: 13px">
+															<table class="table table-striped">
+																<thead>
+																	<tr>
+																		<th>Extension number</th>
+																		<th>CC commented</th>
+																		<th>Call time</th>
+																	</tr>
+																</thead>
+																<tbody id="get_fg_calling_history_details">
+
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+
+												<div class="col-md-6"
+													style="margin-top: 10px; display: none; float: right"
+													id="view_og_calling_history_details">
+
+													<div class="inline bordered round-corner">
+														<div class="table-responsive" style="font-size: 13px">
+															<table class="table table-striped">
+																<thead>
+																	<tr>
+																		<th>Extension number</th>
+																		<th>CC commented</th>
+																		<th>Call time</th>
+																	</tr>
+																</thead>
+																<tbody id="get_og_calling_history_details">
+
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+
+											</div>
+
+
 										</div>
 									</div>
 									<!-- guarantors verification ends -->
@@ -1848,12 +1989,75 @@
 												style="color: red; font-size: 12px; font-weight: bold; display: none;">
 												Please select all.</div>
 										</div>
+
+										<div class="col-md-12">
+
+											<div class="col-md-2">
+												<a href="#modalForCustomerComment" class="btn btn-success"
+													data-toggle="modal">Add a comment for Customer...</a>
+											</div>
+											<div class="col-md-1"></div>
+
+											<div class="col-md-2" id="view_customer_history">
+												<button type="button" class="btn btn-success"
+													id="btn_view_customer_calling_history"
+													name="btn_view_customer_calling_history"
+													onclick="getCallingInformationForAll('<%=eligibID%>', 'btn_view_customer_calling_history', 'get_customer_calling_history_details'); viewAndHideCallingData('btn_view_customer_calling_history')"
+													value="4">View calling history</button>
+											</div>
+											<div class="col-md-2" id="hide_customer_history"
+												style="display: none;">
+												<button type="button" class="btn btn-success"
+													id="btn_hide_customer_calling_history"
+													name="btn_hide_customer_calling_history"
+													onclick="viewAndHideCallingData('btn_hide_customer_calling_history')">Hide
+													calling history</button>
+											</div>
+
+										</div>
+
+										<div class="col-md-12"
+											style="margin-top: 10px; display: none;"
+											id="view_customer_calling_history_details">
+
+											<div class="col-md-6 inline bordered round-corner">
+												<div class="table-responsive" style="font-size: 13px">
+													<table class="table table-striped">
+														<thead>
+															<tr>
+																<th>Extension number</th>
+																<th>CC commented</th>
+																<th>Call time</th>
+															</tr>
+														</thead>
+														<tbody id="get_customer_calling_history_details">
+
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+
 									</div>
 									<div class="col-md-12">
 										<div class="col-md-2">
 											<button type="button" class="btn btn-success"
 												id="btn_cc_verified_all" name="btn_cc_verified_all"
-												value="1">Submit All</button>
+												onclick="verifyAll('<%=eligibID%>')" value="1">Verified
+												All</button>
+										</div>
+										<div class="col-md-1"></div>
+										<div class="col-md-3 alert alert-success" role="alert"
+											style="color: green; font-weight: bold; display: none;"
+											id="success_message">
+											<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+											<span id="show_message_success"></span>
+										</div>
+										<div class="col-md-4 alert alert-danger" role="alert"
+											style="color: red; font-weight: bold; display: none;"
+											id="fail_message">
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											<span id="show_message_failed"></span>
 										</div>
 									</div>
 								</div>
@@ -1949,7 +2153,6 @@
 		</div>
 		<!-- accept request model end -->
 
-
 		<!-- delete request model -->
 		<div class="modal fade" id="modal-alert-delete">
 			<div class="modal-dialog">
@@ -1977,6 +2180,177 @@
 				</div>
 			</div>
 		</div>
+		<!-- delete request model end -->
+
+		<!-- comment modal starts -->
+		<div class="modal fade" id="modalForNDComment">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header success">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true"></button>
+						<h4 class="modal-title">Calling information of Nizam Dost</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group has-feedback">
+							<label><b>Extension number: </b></label>
+							<div class="input-group" data-parsley-trigger="change">
+								<span class="input-group-addon">92</span> <input type="text"
+									class="form-control mask" data-mask="9999999999"
+									name="verified_nd_extension_number"
+									id="verified_nd_extension_number" maxlength="10"
+									placeholder="Extension number" />
+							</div>
+							<span style="color: red; font-size: 12px;"
+								id="ndExtensionNumberResult"></span>
+						</div>
+						<div class="form-group has-feedback" style="margin-top: 10px">
+							<label><b>CC Comment: </b></label>
+
+							<textarea class="form-control"
+								placeholder="Type a comment here..." id="verified_nd_cc_comment"
+								name="verified_nd_cc_comment" rows="3"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								id="btn_nd_verified_call_data" name="btn_nd_verified_call_data"
+								onclick="insertCallingInformationForAll('<%=eligibID%>', 'verified_nd_extension_number', 'verified_nd_cc_comment', 'btn_nd_verified_call_data', 'modalForNDComment')"
+								value="1">Comment</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalForFGComment">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header success">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true"></button>
+						<h4 class="modal-title">Calling information of Family
+							Guarantor</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group has-feedback">
+							<label><b>Extension number: </b></label>
+							<div class="input-group" data-parsley-trigger="change">
+								<span class="input-group-addon">92</span> <input type="text"
+									class="form-control mask" data-mask="9999999999"
+									name="verified_fg_extension_number" required
+									id="verified_fg_extension_number" maxlength="10"
+									placeholder="Extension number" />
+							</div>
+						</div>
+						<div class="form-group has-feedback" style="margin-top: 10px">
+							<label><b>CC Comment: </b></label>
+
+							<textarea class="form-control"
+								placeholder="Type a comment here..." id="verified_fg_cc_comment"
+								required name="verified_fg_cc_comment" rows="3"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								id="btn_fg_verified_call_data" name="btn_fg_verified_call_data"
+								onclick="insertCallingInformationForAll('<%=eligibID%>', 'verified_fg_extension_number', 'verified_fg_cc_comment', 'btn_fg_verified_call_data', 'modalForFGComment')"
+								value="2">Comment</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalForOGComment">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header success">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true"></button>
+						<h4 class="modal-title">Calling information of Outside
+							Guarantor</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group has-feedback">
+							<label><b>Extension number: </b></label>
+							<div class="input-group" data-parsley-trigger="change">
+								<span class="input-group-addon">92</span> <input type="text"
+									class="form-control mask" data-mask="9999999999"
+									name="verified_og_extension_number"
+									id="verified_og_extension_number" maxlength="10"
+									placeholder="Extension number" />
+							</div>
+						</div>
+						<div class="form-group has-feedback" style="margin-top: 10px">
+							<label><b>CC Comment: </b></label>
+
+							<textarea class="form-control"
+								placeholder="Type a comment here..." id="verified_og_cc_comment"
+								name="verified_og_cc_comment" rows="3"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								id="btn_og_verified_call_data" name="btn_og_verified_call_data"
+								onclick="insertCallingInformationForAll('<%=eligibID%>', 'verified_og_extension_number', 'verified_og_cc_comment', 'btn_og_verified_call_data', 'modalForOGComment')"
+								value="3">Comment</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="modalForCustomerComment">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header success">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true"></button>
+						<h4 class="modal-title">Calling information of Customer</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group has-feedback">
+							<label><b>Extension number: </b></label>
+							<div class="input-group" data-parsley-trigger="change">
+								<span class="input-group-addon">92</span> <input type="text"
+									class="form-control mask" data-mask="9999999999"
+									name="verified_customer_extension_number"
+									id="verified_customer_extension_number" maxlength="10"
+									placeholder="Extension number" />
+							</div>
+						</div>
+						<div class="form-group has-feedback" style="margin-top: 10px">
+							<label><b>CC Comment: </b></label>
+
+							<textarea class="form-control"
+								placeholder="Type a comment here..."
+								id="verified_customer_cc_comment"
+								name="verified_customer_cc_comment" rows="3"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary"
+								id="btn_customer_verified_call_data"
+								name="btn_customer_verified_call_data"
+								onclick="insertCallingInformationForAll('<%=eligibID%>', 'verified_customer_extension_number', 'verified_customer_cc_comment', 'btn_customer_verified_call_data', 'modalForCustomerComment')"
+								value="4">Comment</button>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<!-- comment modal ends -->
 
 	</div>
 	<!-- end row -->
@@ -1996,12 +2370,10 @@
 		class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade"
 		data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
 	<!-- end scroll to top btn -->
-	</div>
-	</div>
 
 	<!-- ================== BEGIN BASE JS ================== -->
 
-
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
 	<script
 		src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
