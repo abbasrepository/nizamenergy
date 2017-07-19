@@ -134,7 +134,7 @@
 							class="badge pull-right" id="unseen_booking_count"></span>
 					</a></li>
 					<li class="has-sub"><a href="Customer"> <i
-							class="ion-ios-people"></i> <span>Customers</span>
+							class="ion-ios-people"></i> <span>Customersssssss</span>
 					</a></li>
 					<li class="has-sub"><a href="Appliances"> <i
 							class="ion-cube"></i> <span>Pipeline</span>
