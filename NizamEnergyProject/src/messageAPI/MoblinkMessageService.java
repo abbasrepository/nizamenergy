@@ -329,4 +329,8 @@ public class MoblinkMessageService {
 		}
 		return rows;
 	}
+	
+	public static void main(String arg[]) throws IOException, JSONException, SQLException{
+		SendMessage("923028653305", "$5$");
+	}
 }

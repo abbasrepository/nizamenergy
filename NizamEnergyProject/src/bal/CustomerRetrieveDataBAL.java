@@ -293,9 +293,87 @@ public class CustomerRetrieveDataBAL {
 		return list;
 	}
 
-	public static HashMap<String, String> verifyCustomerByCC(
-			HashMap<String, String> map, int eligibilityId) {
+	public static ArrayList<HashMap<String, String>> getRequestStatus(int id) {
+		ArrayList<HashMap<String, String>> maps = new ArrayList<>();
+		try (Connection connection = Connect.getConnection();) {
+			CallableStatement prepareCall = connection
+					.prepareCall("{CALL acceptedRejectedLoans(?)}");
+			prepareCall.setInt(1, id);
+			ResultSet rs = prepareCall.executeQuery();
+			while (rs.next()) {
+				HashMap<String, String> map = new HashMap<>();
+				map.put("EligibilityId", rs.getInt("eligibility_id") + "");
+				map.put("Status", rs.getString("status"));
+				map.put("ApplianceName", rs.getString("appliance_name"));
+				map.put("ApplianceId", rs.getString("appliance_id"));
+				map.put("customerName", rs.getString("customer_name"));
+				map.put("customerId", rs.getString("customer_id"));
+				map.put("appStatus", "appliance_status");
+				map.put("salesman", rs.getString("salesman_name"));
+				map.put("scheme", rs.getInt("installment_scheme") + "");
 
+				maps.add(map);
+			}
+			prepareCall.close();
+			connection.close();
+		} catch (SQLException e) {
+			logger.error("", e);
+			e.printStackTrace();
+		}
+		return maps;
+	}
+
+	public static int getLoanStatus(int eligId) {
+		int status = 0;
+		try (Connection con = Connect.getConnection();) {
+			CallableStatement call = con
+					.prepareCall("{CALL get_status_of_loanApp(?)}");
+			call.setInt(1, eligId);
+			ResultSet rs = call.executeQuery();
+			while (rs.next()) {
+				status = rs.getInt(1);
+			}
+			con.close();
+		} catch (SQLException e) {
+			logger.error("", e);
+		}
+		return status;
+	}
+
+	public static ArrayList<HashMap<String, String>> getApplianceInAccount(
+			int customerId) {
+		ArrayList<HashMap<String, String>> list = new ArrayList<>();
+		HashMap<String, String> map = null;
+		try (Connection connection = Connect.getConnection()) {
+			CallableStatement prepareCall = connection
+					.prepareCall("{CALL get_appliance_inaccount2(?)}");
+			prepareCall.setInt(1, customerId);
+			ResultSet rs = prepareCall.executeQuery();
+
+			ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
+			String[] columns = new String[metaData.getColumnCount()];
+			for (int i = 0; i < columns.length; i++) {
+				columns[i] = metaData.getColumnLabel(i + 1);
+			}
+			while (rs.next()) {
+				map = new HashMap<>();
+				for (int i = 0; i < columns.length; i++) {
+					map.put(columns[i], rs.getString(columns[i]));
+				}
+				list.add(map);
+			}
+		} catch (SQLException e) {
+			logger.error("", e);
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public static int verifyCustomerByCC(HashMap<String, String> map,
+			int eligibilityId) {
+
+		int ccVerificationStatus = 0;
 		try (Connection con = Connect.getConnection()) {
 
 			PreparedStatement preparedStatement = (PreparedStatement) con
@@ -416,18 +494,33 @@ public class CustomerRetrieveDataBAL {
 				}
 				if (verifyAll == 1) {
 
-					preparedStatement = (PreparedStatement) con
-							.prepareStatement("UPDATE `cc_verified_customers` SET `verified_all_status` = ? WHERE `eligibility_id` = ?;");
+					PreparedStatement preparedSt = (PreparedStatement) con
+							.prepareStatement("SELECT * FROM `cc_verified_customers` cc "
+									+ " JOIN `eligibility` ee ON ee.`eligibility_id` = cc.`eligibility_id` "
+									+ " WHERE cc.`customer_verified_status` = 1 AND cc.`sl_verified_status` = 1 AND "
+									+ " cc.`fg_verified_status` = 1 AND cc.`og_verified_status` = 1 AND ee.`eligibility_id` = ?");
+					preparedSt.setInt(1, eligibilityId);
+					ResultSet resultSet2 = preparedSt.executeQuery();
+					if (resultSet2.next()) {
 
-					preparedStatement.setInt(1, verifyAll);
-					preparedStatement.setInt(2, eligibilityId);
-					preparedStatement.executeUpdate();
+						preparedStatement = (PreparedStatement) con
+								.prepareStatement("UPDATE `cc_verified_customers` SET `verified_all_status` = ? WHERE `eligibility_id` = ?;");
 
-					// updating eligibility status
-					CallableStatement cs = con
-							.prepareCall("{call verify_customer_by_cc(?)}");
-					cs.setInt(1, eligibilityId);
-					cs.executeUpdate();
+						preparedStatement.setInt(1, verifyAll);
+						preparedStatement.setInt(2, eligibilityId);
+						preparedStatement.executeUpdate();
+
+						// updating eligibility status
+						CallableStatement cs = con
+								.prepareCall("{call verify_customer_by_cc(?)}");
+						cs.setInt(1, eligibilityId);
+						cs.executeUpdate();
+
+						ccVerificationStatus = 1;
+
+					} else {
+						ccVerificationStatus = 0;
+					}
 				}
 
 			} else {
@@ -503,71 +596,47 @@ public class CustomerRetrieveDataBAL {
 				prepareCall.setInt(26, (map.get("verifyCs") == null ? 0
 						: Integer.parseInt(map.get("verifyCs"))));
 
-				prepareCall.executeUpdate();
+				prepareCall.executeQuery();
 			}
 
 		} catch (Exception ex) {
 			logger.error("", ex);
 		}
 
-		return map;
+		return ccVerificationStatus;
 	}
 
-	public static ArrayList<HashMap<String, String>> getRequestStatus(int id) {
-		ArrayList<HashMap<String, String>> maps = new ArrayList<>();
-		try (Connection connection = Connect.getConnection();) {
+	public static int insertCCVerificationCallingData(
+			HashMap<String, String> map) {
+		int id = 0;
+
+		try (Connection connection = Connect.getConnection()) {
+
 			CallableStatement prepareCall = connection
-					.prepareCall("{CALL acceptedRejectedLoans(?)}");
-			prepareCall.setInt(1, id);
-			ResultSet rs = prepareCall.executeQuery();
-			while (rs.next()) {
-				HashMap<String, String> map = new HashMap<>();
-				map.put("EligibilityId", rs.getInt("eligibility_id") + "");
-				map.put("Status", rs.getString("status"));
-				map.put("ApplianceName", rs.getString("appliance_name"));
-				map.put("ApplianceId", rs.getString("appliance_id"));
-				map.put("customerName", rs.getString("customer_name"));
-				map.put("customerId", rs.getString("customer_id"));
-				map.put("appStatus", "appliance_status");
-				map.put("salesman", rs.getString("salesman_name"));
-				map.put("scheme", rs.getInt("installment_scheme") + "");
+					.prepareCall("{CALL insert_calling_data_cc_verification_customer_form(?,?,?,?)}");
+			prepareCall.setInt(1, Integer.parseInt(map.get("eligibilityId")));
+			prepareCall.setString(2, map.get("callingNumber"));
+			prepareCall.setString(3, map.get("ccComment"));
+			prepareCall.setInt(4, Integer.parseInt(map.get("status")));
+			prepareCall.executeUpdate();
 
-				maps.add(map);
-			}
-			prepareCall.close();
-			connection.close();
-		} catch (SQLException e) {
-			logger.error("", e);
-			e.printStackTrace();
+		} catch (SQLException ex) {
+			logger.error("", ex);
+			ex.printStackTrace();
 		}
-		return maps;
+		return id;
 	}
 
-	public static int getLoanStatus(int eligId) {
-		int status = 0;
-		try (Connection con = Connect.getConnection();) {
-			CallableStatement call = con
-					.prepareCall("{CALL get_status_of_loanApp(?)}");
-			call.setInt(1, eligId);
-			ResultSet rs = call.executeQuery();
-			while (rs.next()) {
-				status = rs.getInt(1);
-			}
-			con.close();
-		} catch (SQLException e) {
-			logger.error("", e);
-		}
-		return status;
-	}
-
-	public static ArrayList<HashMap<String, String>> getApplianceInAccount(
-			int customerId) {
+	public static ArrayList<HashMap<String, String>> getCallingHistoryOfCCVerificationForm(
+			int eligibilityID, int verifiedStatus) {
 		ArrayList<HashMap<String, String>> list = new ArrayList<>();
 		HashMap<String, String> map = null;
 		try (Connection connection = Connect.getConnection()) {
 			CallableStatement prepareCall = connection
-					.prepareCall("{CALL get_appliance_inaccount2(?)}");
-			prepareCall.setInt(1, customerId);
+					.prepareCall("{CALL get_calling_history_cc_verification_customer_form(?,?)}");
+			prepareCall.setInt(1, eligibilityID);
+			prepareCall.setInt(2, verifiedStatus);
+
 			ResultSet rs = prepareCall.executeQuery();
 
 			ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
