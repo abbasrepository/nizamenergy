@@ -8,7 +8,6 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 public class Connect {
-
 	final static Logger logger = Logger.getLogger(Connect.class);
 
 	private static Properties properties;
@@ -27,7 +26,7 @@ public class Connect {
 
 //	private static final String DBURL = "jdbc:mysql://175.107.206.22:3306/nizamdb_tester";
 
-	 private static final String DBURL = "jdbc:mysql://localhost:3306/nizambijli_database_test?zeroDateTimeBehavior=convertToNull";
+	 private static final String DBURL = "jdbc:mysql://192.168.1.102:3306/new_database_test?zeroDateTimeBehavior=convertToNull";
 
 	public static Connection getConnection() {
 		setProperties();
