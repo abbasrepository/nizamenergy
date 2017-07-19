@@ -59,6 +59,13 @@ public class ApplianceStatusBal {
 				map.put("district_name", rs.getString("district_name"));
 				map.put("name", rs.getString("appliance_name"));
 				map.put("power", rs.getInt("power_produced"));
+				map.put("loanStatus", rs.getString("loanStatus"));
+				map.put("customer_id", rs.getInt("customer_id"));
+				map.put("customer_cnic", rs.getString("customer_cnic"));
+				map.put("appliance_id", rs.getString("appliance_id"));
+				map.put("credit_rating", rs.getString("rating")+" %");
+				map.put("created_on", rs.getString("created_on"));
+					
 				list.add(map);
 			}
 		} catch (SQLException e) {
@@ -67,7 +74,7 @@ public class ApplianceStatusBal {
 		}
 		return list;
 	}
-
+	
 	public static ArrayList<HashMap<String, Object>> getLeastProduction() {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
 		try (Connection con = Connect.getConnection()) {
@@ -80,6 +87,13 @@ public class ApplianceStatusBal {
 				map.put("district_name", rs.getString("district_name"));
 				map.put("name", rs.getString("appliance_name"));
 				map.put("power", rs.getInt("power_produced"));
+				map.put("loanStatus", rs.getString("loanStatus"));
+				map.put("customer_id", rs.getInt("customer_id"));
+				map.put("customer_cnic", rs.getString("customer_cnic"));
+				map.put("appliance_id", rs.getString("appliance_id"));
+				map.put("credit_rating", rs.getString("rating")+" %");
+				map.put("created_on", rs.getString("created_on"));
+
 				list.add(map);
 			}
 		} catch (SQLException e) {
@@ -102,6 +116,13 @@ public class ApplianceStatusBal {
 				map.put("district_name", rs.getString("district_name"));
 				map.put("name", rs.getString("appliance_name"));
 				map.put("load", rs.getInt("load_consumed"));
+				map.put("loanStatus", rs.getString("loanStatus"));
+				map.put("customer_id", rs.getInt("customer_id"));
+				map.put("customer_cnic", rs.getString("customer_cnic"));
+				map.put("appliance_id", rs.getString("appliance_id"));
+				map.put("credit_rating", rs.getString("rating")+" %");
+				map.put("created_on", rs.getString("created_on"));
+				
 				list.add(map);
 			}
 		} catch (SQLException e) {
@@ -123,6 +144,13 @@ public class ApplianceStatusBal {
 				map.put("district_name", rs.getString("district_name"));
 				map.put("name", rs.getString("appliance_name"));
 				map.put("load", rs.getInt("load_consumed"));
+				map.put("loanStatus", rs.getString("loanStatus"));
+				map.put("customer_id", rs.getInt("customer_id"));
+				map.put("customer_cnic", rs.getString("customer_cnic"));
+				map.put("appliance_id", rs.getString("appliance_id"));
+				map.put("credit_rating", rs.getString("rating")+" %");
+				map.put("created_on", rs.getString("created_on"));
+				
 				list.add(map);
 			}
 		} catch (SQLException e) {
