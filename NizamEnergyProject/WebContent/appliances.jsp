@@ -403,8 +403,6 @@
 					action : "countApplianceAndSoldStatus"
 				},
 				success : function(data) {
-					console.log("All Count")
-					console.log(data)
 
 					if (data.active != undefined && data.active != 0) {
 						$('#active_rb_li span').text(data.active)
@@ -479,14 +477,11 @@
 						$('#alive_cb_li span').text(data.alive)
 					} else {
 						$('#alive_cb_li span').hide();
-
 					}
-
 				}
-
 			})
-			$(
-					'[name="appliance_status_rb"], [name="sold_status_cb"],[name="health_status_cb"] ')
+			
+			$('[name="appliance_status_rb"], [name="sold_status_cb"],[name="health_status_cb"] ')
 					.each(function() {
 						var id = $(this).attr('id');
 						var inputClass

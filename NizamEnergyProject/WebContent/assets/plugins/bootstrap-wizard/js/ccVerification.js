@@ -285,42 +285,46 @@ function verifyCustomer() {
 		$("#customerMessage").css("display", "block");
 	}
 }
-$(function() {
-	$('#btn_cc_verified_all')
-			.click(
-					function() {
 
-						if ($('[data-csverification]').data('csverification') != "true") {
+function verifyAll(eligibilityId) {
 
-							var csVerify = document
-									.getElementById('customer_verify');
+	if (eligibilityId != null) {
 
-							var eligId = csVerify
-									.getAttribute('data-eligibilityId');
-
-							if (eligId != null) {
-
-								var allVerifiedStatus = $(
-										'[name = "btn_cc_verified_all"]').val();
-
-								$.ajax({
-									url : 'CustomerFormController',
-									method : 'POST',
-									datType : 'json',
-									data : {
-										action : 'ccVerify',
-										eligId : eligId,
-										allVerifiedStatus : allVerifiedStatus
-									},
-									success : function(json) {
-										$('#btn_cc_verified_all').prop(
-												'disabled', true);
-									}
-								});
-							}
+		var allVerifiedStatus = $('[name = "btn_cc_verified_all"]').val();
+		$
+				.ajax({
+					url : 'CustomerFormController',
+					method : 'POST',
+					dataType : 'json',
+					data : {
+						action : 'ccVerify',
+						eligId : eligibilityId,
+						allVerifiedStatus : allVerifiedStatus
+					},
+					success : function(data) {
+						console.log(data);
+						if (data.status != 0) {
+							$("#success_message").css("display", "block");
+							$("#fail_message").css("display", "none");
+							$('#show_message_success').empty();
+							$('#show_message_success').text(
+									'Customer verified successfully.');
+							$('[name = "btn_cc_verified_all"]').prop(
+									'disabled', true);
+						} else {
+							$("#fail_message").css("display", "block");
+							$("#success_message").css("display", "none");
+							$('#show_message_failed').empty();
+							$('#show_message_failed')
+									.text(
+											'Customer verification has not been completed.');
+							$('[name = "btn_cc_verified_all"]').prop(
+									'disabled', false);
 						}
-					});
-});
+					}
+				});
+	}
+}
 
 function getCustomerVerificationData(eligibilityID) {
 	$
@@ -574,4 +578,143 @@ function getCustomerVerificationData(eligibilityID) {
 					}
 				}
 			});
+}
+
+function insertCallingInformationForAll(eligibilityId, extensionNumber,
+		comment, verifiedStatus, modalId) {
+
+	if (eligibilityId != null) {
+
+		var callingNumber = $('#' + extensionNumber + '').val();
+		var ccComment = $('#' + comment + '').val();
+		var status = $('#' + verifiedStatus + '').val();
+
+		$.ajax({
+			url : 'CustomerProfileController',
+			method : 'POST',
+			datType : 'json',
+			data : {
+				action : 'insertCallingCCVerificationInfo',
+				eligId : eligibilityId,
+				callingNumber : callingNumber,
+				ccComment : ccComment,
+				status : status
+
+			},
+			success : function(json) {
+				$('#' + modalId + '').modal('hide');
+				clearModalText(extensionNumber, comment);
+			}
+		});
+	}
+}
+function getCallingInformationForAll(eligiId, verifiedStatus, dataTableId) {
+
+	var status = $('#' + verifiedStatus + '').val();
+	$
+			.ajax({
+				url : 'CustomerProfileController',
+				method : 'POST',
+				dataType : 'json',
+				data : {
+					action : 'getCCVerificationCallingInfo',
+					eligibilityId : eligiId,
+					status : status
+				},
+				success : function(json) {
+
+					if (eligiId != null && json != null) {
+						$('#' + dataTableId + '').empty();
+						if (json.data.length > 0) {
+							$
+									.each(
+											json.data,
+											function(e) {
+												var tds = '<tr>'
+														+ '<td>'
+														+ getFormattedPhoneNumber(json.data[e].extension_number)
+														+ '</td>'
+														+ '<td>'
+														+ json.data[e].cc_comment
+														+ '</td>'
+														+ '<td>'
+														+ json.data[e].calling_time
+														+ '</td>' + '</tr>';
+												$("#" + dataTableId + '')
+														.append(tds);
+											});
+						}
+					}
+				}
+			});
+}
+function viewAndHideCallingData(getClickedButtonId) {
+	if (getClickedButtonId == 'btn_view_nd_calling_history') {
+
+		$("#view_nd_calling_history_details").css("display", "block");
+		$("#view_nd_history").css("display", "none");
+		$("#hide_nd_history").css("display", "block");
+
+	} else if (getClickedButtonId == 'btn_hide_nd_calling_history') {
+		$("#hide_nd_history").css("display", "none");
+		$("#view_nd_history").css("display", "block");
+		$("#view_nd_calling_history_details").css("display", "none");
+
+	} else if (getClickedButtonId == 'btn_view_fg_calling_history') {
+		$("#view_fg_calling_history_details").css("display", "block");
+		$("#view_fg_history").css("display", "none");
+		$("#hide_fg_history").css("display", "block");
+
+	} else if (getClickedButtonId == 'btn_hide_fg_calling_history') {
+		$("#hide_fg_history").css("display", "none");
+		$("#view_fg_history").css("display", "block");
+		$("#view_fg_calling_history_details").css("display", "none");
+
+	} else if (getClickedButtonId == 'btn_view_og_calling_history') {
+		$("#view_og_calling_history_details").css("display", "block");
+		$("#view_og_history").css("display", "none");
+		$("#hide_og_history").css("display", "block");
+
+	} else if (getClickedButtonId == 'btn_hide_og_calling_history') {
+		$("#hide_og_history").css("display", "none");
+		$("#view_og_history").css("display", "block");
+		$("#view_og_calling_history_details").css("display", "none");
+
+	} else if (getClickedButtonId == 'btn_view_customer_calling_history') {
+		$("#view_customer_calling_history_details").css("display", "block");
+		$("#view_customer_history").css("display", "none");
+		$("#hide_customer_history").css("display", "block");
+
+	} else if (getClickedButtonId == 'btn_hide_customer_calling_history') {
+		$("#hide_customer_history").css("display", "none");
+		$("#view_customer_history").css("display", "block");
+		$("#view_customer_calling_history_details").css("display", "none");
+
+	}
+}
+function formatNumber(number) {
+	number = parseInt(number);
+
+	number = number.toFixed(2) + '';
+	x = number.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? ' PKR ' : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+
+function getFormattedPhoneNumber(phone) {
+	if (phone != null) {
+		phone = '(+' + phone.substr(0, 2) + ') ' + phone.substr(2, 3) + '-'
+				+ phone.substr(5, 7);
+	}
+	return phone;
+}
+
+function clearModalText(extensionID, commentId) {
+	$('#' + extensionID + '').val("");
+	$('#' + commentId + '').val("");
 }
