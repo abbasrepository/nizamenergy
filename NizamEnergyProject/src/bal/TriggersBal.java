@@ -35,7 +35,8 @@ public class TriggersBal {
 	public static void updateVarifiedCustomersToNoIntersted(int appliance_id) {
 		CallableStatement call = null;
 		try (Connection con = Connect.getConnection();) {
-			call = con.prepareCall("{CALL update_customers_to_not_interested(?)}");
+			call = con
+					.prepareCall("{CALL update_customers_to_not_interested(?)}");
 			call.setInt(1, appliance_id);
 			call.executeQuery();
 		} catch (SQLException e) {
@@ -314,6 +315,44 @@ public class TriggersBal {
 			ex.getStackTrace();
 		}
 		return list;
+	}
+
+	public static void updatePendingMsgStatus(int id) {
+		try (Connection con = Connect.getConnection()) {
+			com.mysql.jdbc.PreparedStatement updateStatement = (com.mysql.jdbc.PreparedStatement) con
+					.prepareStatement("UPDATE pending_messages pm set pm.status = 1 where pm.message_id = ?");
+			updateStatement.setInt(1, id);
+			updateStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			logger.error(e);
+			e.printStackTrace();
+		}
+	}
+
+	public static ArrayList<HashMap<String, String>> getPendingMessages() {
+		HashMap<String, String> map = null;
+		ArrayList<HashMap<String, String>> list = new ArrayList<>();
+		try (Connection con = Connect.getConnection();) {
+			CallableStatement prepareCall = con
+					.prepareCall("{call get_pending_messages()}");
+			ResultSet resultSet = prepareCall.executeQuery();
+			while (resultSet.next()) {
+				map = new HashMap<>();
+				map.put("customerPhone", resultSet.getString("reciever_no")
+						+ "");
+				map.put("message", resultSet.getString("message") + "");
+				map.put("message_id", resultSet.getInt("message_id") + "");
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public static void main(String[] args) {
+		getPendingMessages();
 	}
 
 }

@@ -122,7 +122,7 @@
 				<ul class="nav">
 
 					<li class="has-sub"><a href="SuperAdminDashboard"> <i
-							class="fa fa-laptop"></i> <span>Dashboard/Test</span>
+							class="fa fa-laptop"></i> <span>Dashboard</span>
 					</a></li>
 
 					<li class="has-sub"><a href="Request"> <i
@@ -1017,7 +1017,7 @@
 															}
 															json.data[e].add = ""
 															json.data[e].add = '<a href="UpdateCustomerForm?customerid='
-																	+ json.data[i].customer_id
+																	+ json.data[e].customer_id
 																	+ '&id='
 																	+ json.data[i].appliance_id
 																	+ '"><span class="btn btn-info btn-xs">Add/Update <i class="fa fa-plus"></i></span></a>';

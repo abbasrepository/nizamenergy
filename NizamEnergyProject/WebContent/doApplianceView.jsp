@@ -660,27 +660,26 @@
 											<span style="color: red" id="imeiresult"></span>
 									</tr>
 									<tr>
-										<th>GSM Number</th>
-										<td>
-											<%
-												String gsm = "";
-
-													if (bean.getApplianceGsmNo() == null
-															|| bean.getApplianceGsmNo() == "") {
-											%> N/A <%
-												} else {
-														gsm = bean.getApplianceGsmNo().substring(2);
-														StringBuilder buldgsm = new StringBuilder(gsm);
-											%> <span>(+92) </span><input type="text" id="gsm"
-											value="<%=buldgsm.insert(3, "-")%>" maxlength="11"
-											onkeypress="setMobileDash(event,'dophone1')" disabled
-											style="background-color: white; border: none">
-
-										</td>
-										<%
-											}
-										%>
-									</tr>
+								          <th>GSM Number</th>
+								          <td>
+								           <%
+								            String gsm = "";
+								
+								             if (bean.getApplianceGsmNo() == null
+								               || bean.getApplianceGsmNo() == "") {
+								           %> N/A <%
+								            } else {
+								              gsm = bean.getApplianceGsmNo();              
+								           %> <input type="text" id="gsm"
+								           value="<%=gsm%>" maxlength="12"
+								           onkeypress="setMobileDash(event,'dophone1')" disabled
+								           style="background-color: white; border: none">
+								
+								          </td>
+								          <%
+								           }
+								          %>
+								         </tr>
 
 									<tr>
 										<th>Consumer Number</th>

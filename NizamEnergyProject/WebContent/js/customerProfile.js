@@ -703,7 +703,6 @@ function getCustomerOutsideGuarantor(customerId, gType) {
 			});
 }
 
-
 function getCustomerAcceptedAppliances(customerId) {
 	$
 			.ajax({
@@ -752,8 +751,6 @@ function getCustomerAcceptedAppliances(customerId) {
 														getTransferStatus = '<span class="label" style="background-color: #bdc3c7; color: white; font-weight: bold;">Ready To Assign</span>';
 													} else if (json.data[e].applianceStatus == '2') {
 														getTransferStatus = '<span class="label" style="background-color: #1abc9c; color: white; font-weight: bold;">Handover</span>';
-													} else if (json.data[e].applianceStatus == '3') {
-														getTransferStatus = '<span class="label" style="background-color: #7f8c8d; color: white; font-weight: bold;">Owner</span>';
 													} else if (json.data[e].applianceStatus == '4') {
 														getTransferStatus = '<span class="label" style="background-color: #d35400; color: black; font-weight: bold;">Returned</span>';
 													} else if (json.data[e].applianceStatus == '5') {
@@ -838,11 +835,6 @@ function getCustomerAcceptedAppliances(customerId) {
 				}
 			});
 }
-
-
-
-
-
 
 function formatNumber(number) {
 	number = parseInt(number);

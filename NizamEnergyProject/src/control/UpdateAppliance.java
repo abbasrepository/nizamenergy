@@ -84,7 +84,6 @@ public class UpdateAppliance extends HttpServlet {
 				String consumer = request.getParameter("consumer");
 				String imei = request.getParameter("appImei");
 				String gsm = request.getParameter("appGsm");
-				gsm = "92" + gsm.replace("-", "");
 				logger.info("User Name : " + ubean.getUserName() + " IMEI "
 						+ imei + " Consumer " + consumer + " GSM " + gsm);
 				try {

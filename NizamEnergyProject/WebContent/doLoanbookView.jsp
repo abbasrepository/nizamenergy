@@ -49,14 +49,14 @@
 
 	<%
 		UserBean userbean = (UserBean) session.getAttribute("email");
-		if (userbean == null) {
-			response.sendRedirect("SolarHomeSystemLogin");
-		} else {
-			CustomerLoanBean appliance = (CustomerLoanBean) request
-					.getAttribute("appliance");
-			List<MonthlyWisePayment> loans1 = (List<MonthlyWisePayment>) request
-					.getAttribute("loanBook");
-			// 			String terminatAt = (String) request.getAttribute("terminatAt");
+			if (userbean == null) {
+		response.sendRedirect("SolarHomeSystemLogin");
+			} else {
+		CustomerLoanBean appliance = (CustomerLoanBean) request
+				.getAttribute("appliance");
+		List<MonthlyWisePayment> loans1 = (List<MonthlyWisePayment>) request
+				.getAttribute("loanBook");
+		// 			String terminatAt = (String) request.getAttribute("terminatAt");
 	%>
 
 
@@ -208,7 +208,7 @@
 										<td>
 											<%
 												double down = appliance.getDownPayment();
-													if (down != 0.0) {
+																						if (down != 0.0) {
 											%> <span class="fa fa-check fa-lg m-r-5 text-success"
 											id="downPayment"></span><%=NumberFormat.getNumberInstance(Locale.US).format(
 							Math.round(down))%><b> PKR</b> <%
@@ -294,12 +294,7 @@
 									</tr>
 									<tr>
 										<th>GSM Number</th>
-										<td>
-											<%
-												StringBuilder appGms = new StringBuilder(appliance
-															.getGsmNumber().replace("92", ""));
-													appGms = appGms.insert(3, "-");
-											%> <span>(+92)</span> <%=appGms%></td>
+										<td><%=appliance.getGsmNumber()%></td>
 									</tr>
 									<tr>
 										<th>Appliance Price</th>
@@ -312,7 +307,7 @@
 										<td>
 											<%
 												int applianceStatus = appliance.getApplianceStatus();
-													if (applianceStatus == 1) {
+																						if (applianceStatus == 1) {
 											%> <span class="label"
 											style="background-color: #16a085; color: white; font-weight: bold;">Active</span>
 											<%
@@ -400,57 +395,57 @@
 									<tbody id="loanBook">
 										<%
 											String color = "white";
-												String tcolor = "black";
-												for (int i = 0; i < loans1.size(); i++) {
+																				String tcolor = "black";
+																				for (int i = 0; i < loans1.size(); i++) {
 										%>
 										<%
 											if (loans1.get(i).getPaid_date() != null
-															&& loans1.get(i).getPaid_date()
-																	.after(loans1.get(i).getDue_date())) {
+																							&& loans1.get(i).getPaid_date()
+																									.after(loans1.get(i).getDue_date())) {
 										%><tr style="background-color: red; color: white;">
 											<%
 												} else if (loans1.get(i).getPaid_date() == null
-																&& new Date().after(loans1.get(i).getDue_date())) {
+																									&& new Date().after(loans1.get(i).getDue_date())) {
 											%>
 										
 										<tr style="background-color: red; color: white;">
 											<%
 												} else {
-															if (i == loans1.size() - 1) {
-																//            
-																if (loans1.get(i).getRemaining_days() >= -7
-																		&& loans1.get(i).getRemaining_days() <= -1) {
-																	color = "Red";
-																	tcolor = "black";
-																} else if (loans1.get(i).getRemaining_days() == 0) {
-																	color = "#ecf0f1";
-																	tcolor = "black";
-																} else if (loans1.get(i).getRemaining_days() >= 1
-																		&& loans1.get(i).getRemaining_days() <= 4) {
-																	color = "#1abc9c";
-																	tcolor = "black";
-																} else if (loans1.get(i).getRemaining_days() >= 5
-																		&& loans1.get(i).getRemaining_days() <= 10) {
-																	color = "#f1c40f";
-																	tcolor = "black";
-																} else if (loans1.get(i).getRemaining_days() >= 11
-																		&& loans1.get(i).getRemaining_days() <= 29) {
-																	color = "#8e44ad";
-																	tcolor = "white";
-																} else if (loans1.get(i).getRemaining_days() >= 30) {
-																	color = "Green";
-																	tcolor = "white";
-																} else if (loans1.get(i).getRemaining_days() <= -8) {
-																	color = "#595959";
-																	tcolor = "white";
-																}
+																								if (i == loans1.size() - 1) {
+																									//            
+																									if (loans1.get(i).getRemaining_days() >= -7
+																											&& loans1.get(i).getRemaining_days() <= -1) {
+																										color = "Red";
+																										tcolor = "black";
+																									} else if (loans1.get(i).getRemaining_days() == 0) {
+																										color = "#ecf0f1";
+																										tcolor = "black";
+																									} else if (loans1.get(i).getRemaining_days() >= 1
+																											&& loans1.get(i).getRemaining_days() <= 4) {
+																										color = "#1abc9c";
+																										tcolor = "black";
+																									} else if (loans1.get(i).getRemaining_days() >= 5
+																											&& loans1.get(i).getRemaining_days() <= 10) {
+																										color = "#f1c40f";
+																										tcolor = "black";
+																									} else if (loans1.get(i).getRemaining_days() >= 11
+																											&& loans1.get(i).getRemaining_days() <= 29) {
+																										color = "#8e44ad";
+																										tcolor = "white";
+																									} else if (loans1.get(i).getRemaining_days() >= 30) {
+																										color = "Green";
+																										tcolor = "white";
+																									} else if (loans1.get(i).getRemaining_days() <= -8) {
+																										color = "#595959";
+																										tcolor = "white";
+																									}
 											%>
 										
 										<tr
 											style="background-color: <%=i == 0 ? "white" : color%>; color: <%=i == 0 ? "black" : tcolor%>;">
 											<%
 												}
-														}
+																							}
 											%>
 
 											<td><%=i == 0 ? "N/A" : loans1.get(i).getDue_date()%></td>
