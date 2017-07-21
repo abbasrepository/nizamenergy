@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import bal.CustomerRetrieveDataBAL;
 import bean.UserBean;
 
+/**
+ * Servlet implementation class CustomerProfileController
+ */
 @WebServlet("/CustomerProfileController")
 public class CustomerProfileController extends HttpServlet {
 	final static Logger logger = Logger
@@ -32,6 +35,10 @@ public class CustomerProfileController extends HttpServlet {
 
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
@@ -62,8 +69,7 @@ public class CustomerProfileController extends HttpServlet {
 					map.put("ccComment", ccComment);
 					map.put("status", "" + status);
 
-					CustomerRetrieveDataBAL
-							.insertCCVerificationCallingData(map);
+					CustomerRetrieveDataBAL.insertCCVerificationCallingData(map);
 
 				}
 			}

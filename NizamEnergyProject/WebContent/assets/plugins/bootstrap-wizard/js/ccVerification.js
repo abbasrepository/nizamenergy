@@ -315,9 +315,14 @@ function verifyAll(eligibilityId) {
 							$("#fail_message").css("display", "block");
 							$("#success_message").css("display", "none");
 							$('#show_message_failed').empty();
+<<<<<<< HEAD
+							$('#show_message_failed').text(
+									'Customer verification has not been done.');
+=======
 							$('#show_message_failed')
 									.text(
 											'Customer verification has not been completed.');
+>>>>>>> master
 							$('[name = "btn_cc_verified_all"]').prop(
 									'disabled', false);
 						}
@@ -608,6 +613,10 @@ function insertCallingInformationForAll(eligibilityId, extensionNumber,
 		});
 	}
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
 function getCallingInformationForAll(eligiId, verifiedStatus, dataTableId) {
 
 	var status = $('#' + verifiedStatus + '').val();
@@ -648,6 +657,10 @@ function getCallingInformationForAll(eligiId, verifiedStatus, dataTableId) {
 				}
 			});
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
 function viewAndHideCallingData(getClickedButtonId) {
 	if (getClickedButtonId == 'btn_view_nd_calling_history') {
 
@@ -692,6 +705,10 @@ function viewAndHideCallingData(getClickedButtonId) {
 
 	}
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
 function formatNumber(number) {
 	number = parseInt(number);
 
@@ -717,4 +734,8 @@ function getFormattedPhoneNumber(phone) {
 function clearModalText(extensionID, commentId) {
 	$('#' + extensionID + '').val("");
 	$('#' + commentId + '').val("");
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> master

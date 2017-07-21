@@ -238,15 +238,19 @@ public class CustomerFormController extends HttpServlet {
 						map = new HashMap<String, String>();
 						map.put("verifyAll", verifyAll + "");
 
-						CustomerRetrieveDataBAL.verifyCustomerByCC(map,
-								eligibilityId);
+						int ccVerificationStatus = CustomerRetrieveDataBAL
+								.verifyCustomerByCC(map, eligibilityId);
+
+						json.put("status", ccVerificationStatus);
 
 					} catch (Exception je) {
 						json.put("status", "error");
 						json.put("message", je.getStackTrace());
 					}
+					out.print(json);
 				}
 			}
+
 			if (action.equals("updatePricePlan")) {
 				int scheme = Integer.valueOf(request
 						.getParameter("scheme_plan"));
