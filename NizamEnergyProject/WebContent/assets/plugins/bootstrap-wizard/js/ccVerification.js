@@ -69,7 +69,7 @@ function verifyFG() {
 	var fgq4 = $('[name = "fgQ4"]').val();
 	var fgq5 = $('[name = "fgQ5"]').val();
 	var fgVerifiedStatus = $('[name = "btn_cc_verified_fg"]').val();
-
+	
 	if (fgq1.valueOf() != '' && fgq2.valueOf() != '' && fgq3.valueOf() != ''
 			&& fgq4.valueOf() != '' && fgq5.valueOf() != '') {
 		$.ajax({
@@ -608,6 +608,7 @@ function insertCallingInformationForAll(eligibilityId, extensionNumber,
 		});
 	}
 }
+
 function getCallingInformationForAll(eligiId, verifiedStatus, dataTableId) {
 
 	var status = $('#' + verifiedStatus + '').val();
@@ -648,6 +649,7 @@ function getCallingInformationForAll(eligiId, verifiedStatus, dataTableId) {
 				}
 			});
 }
+
 function viewAndHideCallingData(getClickedButtonId) {
 	if (getClickedButtonId == 'btn_view_nd_calling_history') {
 
@@ -691,19 +693,6 @@ function viewAndHideCallingData(getClickedButtonId) {
 		$("#view_customer_calling_history_details").css("display", "none");
 
 	}
-}
-function formatNumber(number) {
-	number = parseInt(number);
-
-	number = number.toFixed(2) + '';
-	x = number.split('.');
-	x1 = x[0];
-	x2 = x.length > 1 ? ' PKR ' : '';
-	var rgx = /(\d+)(\d{3})/;
-	while (rgx.test(x1)) {
-		x1 = x1.replace(rgx, '$1' + ',' + '$2');
-	}
-	return x1 + x2;
 }
 
 function getFormattedPhoneNumber(phone) {
